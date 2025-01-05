@@ -1,25 +1,41 @@
 package com.example.tsp.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class RefIdService {
 
+    /**
+     * 카드 번호를 기반으로 고유한 참조 ID 생성
+     * @param cardNumber 평문 카드 번호
+     * @return 생성된 참조 ID
+     */
     public String generateRefId(String cardNumber) {
-        // 평문 카드 번호 검증
-        // 카드 번호의 유효성 검사는 일반적으로 Luhn 알고리즘 사용한다
-        if(!isValidCardNumber(cardNumber)){
-            throw new RuntimeException("유효하지 않은 카드번호 입니다.");
+        // 카드 번호 유효성 검증 >> Luhn 알고리즘을 사용하여 카드 번호 유효성 검증
+        if (!isValidCardNumber(cardNumber)) {
+            log.error("유효하지 않은 카드 번호: {}", cardNumber);
+            throw new IllegalArgumentException("유효하지 않은 카드번호입니다.");
         }
-        // 카드 번호 + UUID를 활용한 유니크한 refId 생성
-        return "REF-" + cardNumber + "-" + UUID.randomUUID();
+
+        // 고유한 참조 ID UUID로 생성
+        String refId = "REF-" + cardNumber + "-" + UUID.randomUUID();
+        log.info("참조 ID 생성 완료: {}", refId);
+        return refId;
     }
 
+    /**
+     * Luhn 알고리즘을 사용하여 카드 번호 유효성 검증
+     * @param cardNumber 카드 번호
+     * @return 유효하면 true, 아니면 false
+     */
     public static boolean isValidCardNumber(String cardNumber) {
-        // 카드 번호가 null이거나 숫자가 아닌 경우 false 반환
+        // 카드 번호가 null이거나 숫자가 아닌 경우
         if (cardNumber == null || !cardNumber.matches("\\d+")) {
+            log.warn("카드 번호가 null이거나 숫자가 아님: {}", cardNumber);
             return false;
         }
 
@@ -33,18 +49,19 @@ public class RefIdService {
             // 두 번째 숫자마다 두 배 처리
             if (isSecondDigit) {
                 digit *= 2;
-                // 두 배 값이 9보다 크면 각 자릿수를 더함
                 if (digit > 9) {
                     digit -= 9;
                 }
             }
 
             totalSum += digit;
-            // 다음 자리의 숫자는 두 번째 자리로 처리
             isSecondDigit = !isSecondDigit;
         }
 
-        // 총합이 10으로 나누어 떨어지면 유효한 카드 번호
-        return totalSum % 10 == 0;
+        boolean isValid = totalSum % 10 == 0;
+        if (!isValid) {
+            log.warn("유효하지 않은 카드 번호 (Luhn 알고리즘 실패): {}", cardNumber);
+        }
+        return isValid;
     }
 }

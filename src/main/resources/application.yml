@@ -14,3 +14,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  management:
+    tracing:
+      enabled: true
+
+    application:
+      name: tsp-service
+    opentelemetry:
+      tracing:
+        enabled: true
+        exporter:
+          otlp:
+            endpoint: http://localhost:4317
+
