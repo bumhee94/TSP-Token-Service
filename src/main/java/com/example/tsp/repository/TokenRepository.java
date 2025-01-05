@@ -2,10 +2,10 @@ package com.example.tsp.repository;
 
 import com.example.tsp.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.Optional;
+
 public interface TokenRepository extends JpaRepository<Token, Long> {
-    boolean existsByRefId(String refId);
-    Token findByTokenValue(String tokenValue);
+    Optional<Token> findByTokenValue(String tokenValue);
+    boolean existsByRefIdAndUsed(String refId, boolean used);
 }

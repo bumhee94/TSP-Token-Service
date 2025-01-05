@@ -28,4 +28,7 @@ public class Token {
 
     @Column(nullable = false)
     private LocalDateTime expireDt; // 토큰 만료 시간
+
+    @Column(nullable = false)
+    private Boolean used = false; // 토큰 사용 여부 (기본값: false)
 }
