@@ -15,10 +15,10 @@ public class TspApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(TspApplication.class, args);
+        initializeOpenTelemetry(); // main 메서드에서 초기화 호출
     }
 
-    @PostConstruct
-    public void initializeOpenTelemetry() {
+    private static void initializeOpenTelemetry() {
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
                 .setEndpoint("http://localhost:4317") // Tempo 서버 엔드포인트
                 .build();

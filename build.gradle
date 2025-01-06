@@ -18,9 +18,10 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'io.opentelemetry:opentelemetry-api:1.30.0'
-    implementation 'io.opentelemetry:opentelemetry-sdk:1.30.0'
-    implementation 'io.opentelemetry:opentelemetry-exporter-otlp:1.30.0'
+    implementation platform("io.opentelemetry:opentelemetry-bom:1.19.0") // 안정된 BOM 버전
+    implementation 'io.opentelemetry:opentelemetry-api'
+    implementation 'io.opentelemetry:opentelemetry-sdk'
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
     implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
