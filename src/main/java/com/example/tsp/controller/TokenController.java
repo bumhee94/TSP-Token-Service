@@ -36,7 +36,7 @@ public class TokenController {
             // 참조 ID 생성
             String refId = refIdService.generateRefId(cardNumber);
             return ResponseEntity.ok(refId);
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             // 유효하지 않은 카드 번호 처리
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
