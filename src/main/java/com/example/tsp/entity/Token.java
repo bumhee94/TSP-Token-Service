@@ -17,7 +17,7 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String refId; // TR에서 전달받은 카드 참조 ID
 
     @Column(nullable = false, unique = true)

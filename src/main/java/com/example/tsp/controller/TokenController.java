@@ -53,7 +53,7 @@ public class TokenController {
      * @return 생성된 토큰 값
      */
     @PostMapping("/generate-token")
-    public ResponseEntity<String> generateToken(@RequestParam String refId) {
+    public ResponseEntity<String> generateToken(@RequestBody String refId) {
         try {
             String token = tokenService.generateToken(refId);
             return ResponseEntity.ok(token);

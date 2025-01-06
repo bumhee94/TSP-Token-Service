@@ -16,9 +16,11 @@ public class RefIdService {
      */
     public String generateRefId(String cardNumber) {
         // 카드 번호 유효성 검증 >> Luhn 알고리즘을 사용하여 카드 번호 유효성 검증
+        // 하이픈, 띄어쓰기 제거 후 검증
+        cardNumber = cardNumber.replaceAll("[-\\s]", "");
         if (!isValidCardNumber(cardNumber)) {
             log.error("유효하지 않은 카드 번호: {}", cardNumber);
-            throw new IllegalArgumentException("유효하지 않은 카드번호입니다.");
+            throw new RuntimeException("유효하지 않은 카드번호입니다.");
         }
 
         // 고유한 참조 ID UUID로 생성
@@ -32,13 +34,12 @@ public class RefIdService {
      * @param cardNumber 카드 번호
      * @return 유효하면 true, 아니면 false
      */
-    public static boolean isValidCardNumber(String cardNumber) {
+    private static boolean isValidCardNumber(String cardNumber) {
         // 카드 번호가 null이거나 숫자가 아닌 경우
         if (cardNumber == null || !cardNumber.matches("\\d+")) {
             log.warn("카드 번호가 null이거나 숫자가 아님: {}", cardNumber);
             return false;
         }
-
         int totalSum = 0;
         boolean isSecondDigit = false;
 

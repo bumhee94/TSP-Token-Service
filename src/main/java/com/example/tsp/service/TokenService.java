@@ -17,16 +17,16 @@ public class TokenService {
 
     public String generateToken(String refId) {
         // 중복 토큰 생성 방지
-        if (tokenRepository.existsByRefIdAndUsed(refId, false)) {
-            throw new RuntimeException("이미 생성된 활성 토큰이 있습니다.");
-        }
+//        if (tokenRepository.existsByRefIdAndUsed(refId, false)) {
+//            throw new RuntimeException("이미 생성된 활성 토큰이 있습니다. 관리자에게 문의주세요.");
+//        }
 
         // 토큰 생성
         // 결제 시마다 Token 테이블에 row가 추가됨
         // 1회용 토큰 만료시 삭제 정책 필요
         Token token = new Token();
         token.setRefId(refId);
-        token.setTokenValue(UUID.randomUUID().toString());
+        token.setTokenValue(UUID.randomUUID().toString()); // unique
         token.setIssuedDt(LocalDateTime.now());
         token.setExpireDt(LocalDateTime.now().plusMinutes(1)); // 1분유효
         token.setUsed(false); // 초기 상태는 사용되지 않음
