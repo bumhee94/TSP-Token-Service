@@ -1,16 +1,15 @@
 package com.example.tsp.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Token {
 
     @Id
@@ -31,4 +30,8 @@ public class Token {
 
     @Column(nullable = false)
     private Boolean used = false; // 토큰 사용 여부 (기본값: false)
+
+    public void markAsUsed() {
+        this.used = true;
+    }
 }
