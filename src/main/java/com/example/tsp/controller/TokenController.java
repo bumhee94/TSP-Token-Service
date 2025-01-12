@@ -44,8 +44,8 @@ public class TokenController {
      * @param tokenValue 토큰 값
      * @return 유효 여부
      */
-    @GetMapping("/validate-token")
-    public ResponseEntity<Boolean> validateToken(@RequestParam String tokenValue) {
+    @PostMapping("/verify-token")
+    public ResponseEntity<Boolean> validateToken(@RequestBody String tokenValue) {
         boolean isValid = tokenService.verifyToken(tokenValue);
         return ResponseEntity.ok(isValid);
     }
