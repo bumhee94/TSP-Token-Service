@@ -37,6 +37,7 @@ public class TokenService {
 
     public boolean verifyToken(String tokenValue) {
         // 토큰 존재 여부 확인
+        // InvalidTokenException - 글로벌 이셉션 GlobalExceptionHandler 정의
         Token token = tokenRepository.findByTokenValue(tokenValue)
                 .orElseThrow(() -> new InvalidTokenException("유효하지 않은 토큰입니다."));
 
